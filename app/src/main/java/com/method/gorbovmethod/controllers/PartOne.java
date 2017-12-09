@@ -42,6 +42,7 @@ public class PartOne extends AppCompatActivity {
 
 	private static Long timeStart = System.currentTimeMillis();
 	private static Long diffTime;
+	private static Long timeDiffQuit = 0L;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,6 @@ public class PartOne extends AppCompatActivity {
 
 	private void Init() {
 		gridLayout = findViewById(R.id.gridLayout);
-		System.out.println(gridLayout.getContext());
 
 		Display display = getWindowManager().getDefaultDisplay();
 		displayMetrics = new DisplayMetrics();
@@ -75,7 +75,6 @@ public class PartOne extends AppCompatActivity {
 		int measure = displayMetrics.widthPixels / gridLayout.getColumnCount();
 
 		int indexRed = 0, indexBlack = 0;
-		System.out.println(measure);
 
 		for (int i = 0; i < QUEUE_MAX_SIZE; i++) {
 			Button button = new Button(this);
@@ -121,8 +120,6 @@ public class PartOne extends AppCompatActivity {
 		for (int i = 0; i < 2 * QUEUE_MAX_SIZE; i++) {
 			gridLayout.addView(allButtons.get(getIndexForGridLayout()));
 		}
-
-		System.out.println(generalQueue);
 	}
 
 	void checkClickedButton(Button button) {
@@ -170,14 +167,55 @@ public class PartOne extends AppCompatActivity {
 	}
 
 	private void closeTest() {
+		clear();
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
 	}
 
 	private void nextPart() {
+		clear();
 		Intent intent = new Intent(this, PartTwo.class);
-		intent.putExtra("timeFirstPart", diffTime);
+		intent.putExtra("timeFirstPart", diffTime - timeDiffQuit);
 		intent.putExtra("mistakes", COUNT_MISTAKES);
 		startActivity(intent);
+	}
+
+	@Override
+	public void onBackPressed() {
+		openQuitDialog();
+	}
+
+	private void openQuitDialog() {
+		final Long timeQuitStart = System.currentTimeMillis();
+		AlertDialog.Builder quitDialog = new AlertDialog.Builder(this);
+		quitDialog
+				.setTitle("Выход")
+				.setMessage("Вы уверены, что хотите выйти в меню без сохранения результатов?");
+
+		quitDialog.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+				closeTest();
+			}
+		});
+
+		quitDialog.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				Long timeQuitEnd = System.currentTimeMillis();
+				timeDiffQuit = timeQuitEnd - timeQuitStart;
+				dialog.cancel();
+			}
+		});
+
+		quitDialog.show();
+	}
+
+	private void clear() {
+		generalQueue.clear();
+		indexesOfButtons.clear();
+		queueBlackButtons.clear();
+		queueRedButtons.clear();
 	}
 }

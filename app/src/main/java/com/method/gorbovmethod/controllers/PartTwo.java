@@ -1,6 +1,7 @@
 package com.method.gorbovmethod.controllers;
 
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -42,6 +43,8 @@ public class PartTwo extends AppCompatActivity {
 
 	private static Long timeStart = System.currentTimeMillis();
 	private Long diffTime;
+	private Long timeDiffQuit = 0L;
+	private Long time;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +54,8 @@ public class PartTwo extends AppCompatActivity {
 	}
 
 	private void Init() {
+		COUNT_MISTAKES += getIntent().getIntExtra("mistakes", 0);
 		gridLayout = findViewById(R.id.gridLayout);
-		System.out.println(gridLayout.getContext());
 
 		Display display = getWindowManager().getDefaultDisplay();
 		displayMetrics = new DisplayMetrics();
@@ -75,7 +78,6 @@ public class PartTwo extends AppCompatActivity {
 		int measure = displayMetrics.widthPixels / gridLayout.getColumnCount();
 
 		int indexRed = 0, indexBlack = 0;
-		System.out.println(measure);
 
 		for (int i = 0; i < QUEUE_MAX_SIZE; i++) {
 			Button button = new Button(this);
@@ -140,12 +142,13 @@ public class PartTwo extends AppCompatActivity {
 
 	public void showAlertDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		time = (((diffTime - timeDiffQuit) +
+				getIntent().getLongExtra("timeFirstPart", 0)) / 1000L);
+		saveResults();
 		builder.setTitle("Тестирование завершено")
-				.setMessage("Количество ошибок: " +
-						(COUNT_MISTAKES + getIntent().getIntExtra("mistakes", 0)) +
-						"\nВремя прохождения: " +
-						((diffTime + getIntent().getLongExtra("timeFirstPart", 0)) / 1000L) +
-						" секунд")
+				.setMessage("Количество ошибок: " + (COUNT_MISTAKES +
+						"\nВремя прохождения: " + time +
+						" секунд"))
 				.setCancelable(false)
 				.setPositiveButton("Начать заново",
 						new DialogInterface.OnClickListener() {
@@ -172,12 +175,60 @@ public class PartTwo extends AppCompatActivity {
 	}
 
 	private void closeTest() {
+		clear();
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
 	}
 
 	private void forBegin() {
+		clear();
 		Intent intent = new Intent(this, PartOne.class);
 		startActivity(intent);
+	}
+
+	private void saveResults() {
+		ContentValues contentValues = new ContentValues();
+		contentValues.put("time", time);
+		contentValues.put("mistakes", COUNT_MISTAKES);
+		MainActivity.getDatabase().insert("tests_table", null, contentValues);
+	}
+
+	@Override
+	public void onBackPressed() {
+		openQuitDialog();
+	}
+
+	private void openQuitDialog() {
+		final Long timeQuitStart = System.currentTimeMillis();
+		AlertDialog.Builder quitDialog = new AlertDialog.Builder(this);
+		quitDialog
+				.setTitle("Выход")
+				.setMessage("Вы уверены, что хотите выйти в меню без сохранения результатов?");
+
+		quitDialog.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+				closeTest();
+			}
+		});
+
+		quitDialog.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				Long timeQuitEnd = System.currentTimeMillis();
+				timeDiffQuit = timeQuitEnd - timeQuitStart;
+				dialog.cancel();
+			}
+		});
+
+		quitDialog.show();
+	}
+
+	private void clear() {
+		generalQueue.clear();
+		indexesOfButtons.clear();
+		queueBlackButtons.clear();
+		queueRedButtons.clear();
 	}
 }

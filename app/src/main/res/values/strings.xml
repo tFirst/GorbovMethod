@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">GorbovMethod</string>
     <string name="buttonStartTest">Start</string>
+    <string name="startTesting">Начать тестирование</string>
+    <string name="testInfo">В первой части тестирования Вам необходимо указать
+        сначала черные числа в порядке возрастания, а затем красные числа
+        в порядке убывания. Во второй части – попеременно указывать
+        красные числа в порядке убывания и черные числа в порядке возрастания.
+        Ваша задача – пройти тест как можно быстрее и с наименьшим количеством ошибок.</string>
+    <string name="bestTime">Лучшее время</string>
 </resources>
