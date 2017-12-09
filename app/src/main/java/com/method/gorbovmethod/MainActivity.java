@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.method.gorbovmethod.controllers.TestingActivityController;
+import com.method.gorbovmethod.controllers.PartOne;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickButtonStartTest(View view) {
-        Intent intent = new Intent(this, TestingActivityController.class);
+        Intent intent = new Intent(this, PartOne.class);
         startActivity(intent);
     }
 }

@@ -22,7 +22,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".controllers.TestingActivityController"
+        <activity android:name=".controllers.PartOne"
+            android:label="@string/app_name" />
+
+        <activity android:name=".controllers.PartTwo"
             android:label="@string/app_name" />
     </application>
 
