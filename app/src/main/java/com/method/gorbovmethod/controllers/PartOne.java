@@ -213,6 +213,7 @@ public class PartOne extends AppCompatActivity {
 	}
 
 	private void clear() {
+		COUNT_MISTAKES = 0;
 		generalQueue.clear();
 		indexesOfButtons.clear();
 		queueBlackButtons.clear();
