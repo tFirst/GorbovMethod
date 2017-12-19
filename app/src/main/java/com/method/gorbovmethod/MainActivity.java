@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	private void setBestTime() {
-		Cursor cursor = myDatabase.rawQuery("SELECT * FROM tests_table ORDER BY time ASC, mistakes DESC", new String[]{});
+		Cursor cursor = myDatabase.rawQuery("SELECT * FROM tests_table ORDER BY time ASC, mistakes ASC", new String[]{});
 		System.out.println(cursor.getCount());
 		if (cursor.getCount() > 0) {
 			cursor.moveToFirst();
