@@ -1,4 +1,4 @@
-package com.method.gorbovmethod.controllers;
+package com.method.gorbovmethod.controller;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -170,6 +170,7 @@ public class PartOne extends AppCompatActivity {
 		clear();
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
+		finish();
 	}
 
 	private void nextPart() {

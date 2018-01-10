@@ -1,9 +1,6 @@
 package com.method.gorbovmethod;
 
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -13,10 +10,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.method.gorbovmethod.controllers.PartOne;
+import com.method.gorbovmethod.controller.PartOne;
 
 
 public class MainActivity extends AppCompatActivity {
+
+	private final String URL = "http://192.168.1.7:8080";
 
 	private ConstraintLayout constraintLayout;
 	private TextView textView;
@@ -25,25 +24,10 @@ public class MainActivity extends AppCompatActivity {
 	private TextView textViewTime;
 	private TextView textViewTimeText;
 
-	private static final String DATABASE_NAME = "tests.db";
-	private static final String DATABASE_TABLE = "tests_table";
-	private static final String DATABASE_CREATE =
-			"create table if not exists " + DATABASE_TABLE + " ( _id integer primary key autoincrement," +
-					"time INTEGER NOT NULL," +
-					"mistakes INTEGER NOT NULL);";
-	private static SQLiteDatabase myDatabase;
-
-	private void createDatabase() {
-		myDatabase = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE, null);
-		myDatabase.execSQL(DATABASE_CREATE);
-	}
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
-		createDatabase();
 
 		constraintLayout = findViewById(R.id.infoLayout);
 		textView = findViewById(R.id.textView);
@@ -56,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 	public void onClickButtonStartTest(View view) {
 		Intent intent = new Intent(this, PartOne.class);
 		startActivity(intent);
+		finish();
 	}
 
 	@RequiresApi(api = Build.VERSION_CODES.O)
@@ -76,24 +61,7 @@ public class MainActivity extends AppCompatActivity {
 		textViewTime.setVisibility(View.VISIBLE);
 	}
 
-	@Override
-	public void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		setBestTime();
-	}
-
 	private void setBestTime() {
-		Cursor cursor = myDatabase.rawQuery("SELECT * FROM tests_table ORDER BY time ASC, mistakes ASC", new String[]{});
-		System.out.println(cursor.getCount());
-		if (cursor.getCount() > 0) {
-			cursor.moveToFirst();
-			textViewTime.setText(cursor.getLong(1) + " секунд");
-		} else {
-			textViewTime.setText("Результата нет");
-		}
-	}
 
-	public static SQLiteDatabase getDatabase() {
-		return myDatabase;
 	}
 }

@@ -1,4 +1,4 @@
-package com.method.gorbovmethod.controllers;
+package com.method.gorbovmethod.controller;
 
 import android.app.AlertDialog;
 import android.content.ContentValues;
@@ -178,6 +178,7 @@ public class PartTwo extends AppCompatActivity {
 		clear();
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
+		finish();
 	}
 
 	private void forBegin() {
@@ -190,7 +191,6 @@ public class PartTwo extends AppCompatActivity {
 		ContentValues contentValues = new ContentValues();
 		contentValues.put("time", time);
 		contentValues.put("mistakes", COUNT_MISTAKES);
-		MainActivity.getDatabase().insert("tests_table", null, contentValues);
 	}
 
 	@Override

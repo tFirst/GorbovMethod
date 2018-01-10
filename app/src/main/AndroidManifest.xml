@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.method.gorbovmethod">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -14,7 +19,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAUEaPUA8R3YVNvpIXPHRgL42aEG8v0C-o" />
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" />
+        <activity android:name=".AuthActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,10 +28,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".controllers.PartOne"
+        <activity android:name=".controller.PartOne"
             android:label="@string/app_name" />
 
-        <activity android:name=".controllers.PartTwo"
+        <activity android:name=".controller.PartTwo"
             android:label="@string/app_name" />
     </application>
 
