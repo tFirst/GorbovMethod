@@ -7,8 +7,12 @@
         в порядке убывания. Во второй части – попеременно указывать
         красные числа в порядке убывания и черные числа в порядке возрастания.
         Ваша задача – пройти тест как можно быстрее и с наименьшим количеством ошибок.</string>
-    <string name="bestTime">Лучшее время</string>
+    <string name="welcome">Добро пожаловать,</string>
     <string name="enterLoginText">Введите логин</string>
     <string name="enterPasswordText">Введите пароль</string>
     <string name="authText">Авторизоваться</string>
+    <string name="viewResultsText">Просмотр результатов</string>
+    <string name="resultsTableName">Результаты</string>
+    <string name="registerText">Зарегистрировать пользователя</string>
+    <string name="guestText">Войти как гость</string>
 </resources>

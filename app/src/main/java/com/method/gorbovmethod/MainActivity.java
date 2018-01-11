@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.method.gorbovmethod.bean.User;
 import com.method.gorbovmethod.controller.PartOne;
 
 
@@ -21,24 +22,30 @@ public class MainActivity extends AppCompatActivity {
 	private TextView textView;
 	private Button buttonStartTest;
 	private Button buttonInfo;
-	private TextView textViewTime;
-	private TextView textViewTimeText;
+	private TextView textViewWelcome;
+	private TextView textViewWelcomeText;
+
+	private User user;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		user = (User) getIntent().getSerializableExtra("user");
+
 		constraintLayout = findViewById(R.id.infoLayout);
 		textView = findViewById(R.id.textView);
 		buttonStartTest = findViewById(R.id.buttonStartTest);
 		buttonInfo = findViewById(R.id.buttonInfo);
-		textViewTime = findViewById(R.id.textViewTime);
-		textViewTimeText = findViewById(R.id.textViewTimeText);
+		textViewWelcome = findViewById(R.id.textViewWelcome);
+		textViewWelcome.setText(user.getName());
+		textViewWelcomeText = findViewById(R.id.textViewWelcomeText);
 	}
 
 	public void onClickButtonStartTest(View view) {
 		Intent intent = new Intent(this, PartOne.class);
+		intent.putExtra("user", user);
 		startActivity(intent);
 		finish();
 	}
@@ -47,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
 	public void onClickInfo(View view) {
 		buttonInfo.setVisibility(View.INVISIBLE);
 		buttonStartTest.setVisibility(View.INVISIBLE);
-		textViewTime.setVisibility(View.INVISIBLE);
-		textViewTimeText.setVisibility(View.INVISIBLE);
+		textViewWelcome.setVisibility(View.INVISIBLE);
+		textViewWelcomeText.setVisibility(View.INVISIBLE);
 		textView.setText(R.string.testInfo);
 		constraintLayout.setVisibility(View.VISIBLE);
 	}
@@ -57,11 +64,14 @@ public class MainActivity extends AppCompatActivity {
 		constraintLayout.setVisibility(View.INVISIBLE);
 		buttonStartTest.setVisibility(View.VISIBLE);
 		buttonInfo.setVisibility(View.VISIBLE);
-		textViewTimeText.setVisibility(View.VISIBLE);
-		textViewTime.setVisibility(View.VISIBLE);
+		textViewWelcome.setVisibility(View.VISIBLE);
+		textViewWelcomeText.setVisibility(View.VISIBLE);
 	}
 
-	private void setBestTime() {
-
+	public void onClickViewResults(View view) {
+		Intent intent = new Intent(this, ResultsActivity.class);
+		intent.putExtra("user", user);
+		startActivity(intent);
+		finish();
 	}
 }

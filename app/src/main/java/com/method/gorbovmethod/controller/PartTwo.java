@@ -1,7 +1,6 @@
 package com.method.gorbovmethod.controller;
 
 import android.app.AlertDialog;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,14 +8,21 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
 
+import com.method.gorbovmethod.Codes;
 import com.method.gorbovmethod.MainActivity;
 import com.method.gorbovmethod.R;
+import com.method.gorbovmethod.bean.Result;
+import com.method.gorbovmethod.bean.User;
+import com.method.gorbovmethod.common.state.StateMain;
+import com.method.gorbovmethod.connect.HttpRequestTaskPost;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -24,9 +30,19 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
 
 
 public class PartTwo extends AppCompatActivity {
+
+	public static final MediaType JSON
+			= MediaType.parse("application/json; charset=utf-8");
+
+	private static final String URL = "http://192.168.1.7:8080";
+	OkHttpClient client = new OkHttpClient();
 
 	private static final Integer QUEUE_MAX_SIZE = 24;
 	private static Integer COUNT_MISTAKES = 0;
@@ -42,9 +58,11 @@ public class PartTwo extends AppCompatActivity {
 	private static Set<Integer> indexesOfButtons = new HashSet<>();
 
 	private static Long timeStart = System.currentTimeMillis();
-	private Long diffTime;
+	private Long diffTime = 0L;
 	private Long timeDiffQuit = 0L;
 	private Long time;
+
+	private User user;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +72,8 @@ public class PartTwo extends AppCompatActivity {
 	}
 
 	private void Init() {
+		user = (User) getIntent().getSerializableExtra("user");
+
 		COUNT_MISTAKES += getIntent().getIntExtra("mistakes", 0);
 		gridLayout = findViewById(R.id.gridLayout);
 
@@ -177,6 +197,7 @@ public class PartTwo extends AppCompatActivity {
 	private void closeTest() {
 		clear();
 		Intent intent = new Intent(this, MainActivity.class);
+		intent.putExtra("user", user);
 		startActivity(intent);
 		finish();
 	}
@@ -188,9 +209,40 @@ public class PartTwo extends AppCompatActivity {
 	}
 
 	private void saveResults() {
-		ContentValues contentValues = new ContentValues();
-		contentValues.put("time", time);
-		contentValues.put("mistakes", COUNT_MISTAKES);
+		Result result = new Result();
+		result.setUserId(user.getUserId());
+		result.setTestDate(new Timestamp(System.currentTimeMillis()));
+		result.setResultTime(time);
+		result.setResultEval(0);
+		String url = URL +
+				"/result" +
+				"/save" +
+				"?userId=" + user.getUserId();
+
+		StateMain stateMain = getDatas(url, result);
+
+		if (stateMain != null) {
+			if (stateMain.getErrorCode() == Codes.SUCCESS) {
+				Log.i("SAVE", "Results saved success");
+			} else {
+				Log.i("SAVE", "Results not saved");
+			}
+		} else {
+			Log.i("STATE MAIN", "StateMain is null");
+		}
+	}
+
+	private StateMain getDatas(String url, Result result) {
+		System.out.println(url);
+		StateMain stateMain = null;
+		try {
+			stateMain = new HttpRequestTaskPost(url, result).execute().get();
+			System.out.println(stateMain);
+		} catch (InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		}
+
+		return stateMain;
 	}
 
 	@Override
@@ -231,5 +283,9 @@ public class PartTwo extends AppCompatActivity {
 		indexesOfButtons.clear();
 		queueBlackButtons.clear();
 		queueRedButtons.clear();
+	}
+
+	public void onClickEnd(View view) {
+		showAlertDialog();
 	}
 }

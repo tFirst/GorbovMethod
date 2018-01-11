@@ -8,7 +8,7 @@ public class Result {
     private Integer id;
     private Integer userId;
     private Timestamp testDate;
-    private Double resultTime;
+    private Long resultTime;
     private Integer resultEval;
 
     public Integer getId() {
@@ -35,11 +35,11 @@ public class Result {
         this.testDate = testDate;
     }
 
-    public Double getResultTime() {
+    public Long getResultTime() {
         return resultTime;
     }
 
-    public void setResultTime(Double resultTime) {
+    public void setResultTime(Long resultTime) {
         this.resultTime = resultTime;
     }
 

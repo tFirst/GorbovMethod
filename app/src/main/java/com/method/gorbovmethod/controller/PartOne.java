@@ -15,6 +15,7 @@ import android.widget.GridLayout;
 
 import com.method.gorbovmethod.MainActivity;
 import com.method.gorbovmethod.R;
+import com.method.gorbovmethod.bean.User;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -44,6 +45,8 @@ public class PartOne extends AppCompatActivity {
 	private static Long diffTime;
 	private static Long timeDiffQuit = 0L;
 
+	private User user;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,6 +55,8 @@ public class PartOne extends AppCompatActivity {
 	}
 
 	private void Init() {
+		user = (User) getIntent().getSerializableExtra("user");
+
 		gridLayout = findViewById(R.id.gridLayout);
 
 		Display display = getWindowManager().getDefaultDisplay();
@@ -169,6 +174,7 @@ public class PartOne extends AppCompatActivity {
 	private void closeTest() {
 		clear();
 		Intent intent = new Intent(this, MainActivity.class);
+		intent.putExtra("user", user);
 		startActivity(intent);
 		finish();
 	}
@@ -176,8 +182,9 @@ public class PartOne extends AppCompatActivity {
 	private void nextPart() {
 		clear();
 		Intent intent = new Intent(this, PartTwo.class);
-		intent.putExtra("timeFirstPart", diffTime - timeDiffQuit);
+		intent.putExtra("timeFirstPart", (diffTime != null && timeDiffQuit != null) ? diffTime - timeDiffQuit : 0);
 		intent.putExtra("mistakes", COUNT_MISTAKES);
+		intent.putExtra("user", user);
 		startActivity(intent);
 	}
 
@@ -219,5 +226,9 @@ public class PartOne extends AppCompatActivity {
 		indexesOfButtons.clear();
 		queueBlackButtons.clear();
 		queueRedButtons.clear();
+	}
+
+	public void onClickEnd(View view) {
+		nextPart();
 	}
 }

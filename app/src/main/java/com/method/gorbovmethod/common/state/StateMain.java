@@ -3,9 +3,10 @@ package com.method.gorbovmethod.common.state;
 import com.method.gorbovmethod.bean.Result;
 import com.method.gorbovmethod.bean.User;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class StateMain {
+public class StateMain implements Serializable {
 
 	private Integer errorCode;
 	private List<StateResult> results;

@@ -7,4 +7,6 @@
     <color name="colorRed">#FF0000</color>
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
+
+    <color name="colorGreen">@android:color/holo_green_dark</color>
 </resources>

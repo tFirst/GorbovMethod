@@ -1,16 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/gridLayout"
-
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:alignmentMode="alignBounds"
-    android:columnCount="6"
-    android:orientation="horizontal"
-    android:rowCount="8"
-    android:layout_margin="1dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/constrLayout"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
     tools:context="com.method.gorbovmethod.controller.TestingActivityController">
 
-</GridLayout>
+    <GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="match_parent"
+        android:layout_height="462dp"
+        android:layout_gravity="center"
+        android:layout_margin="1dp"
+        android:layout_marginTop="50dp"
+        android:alignmentMode="alignBounds"
+        android:columnCount="6"
+        android:orientation="horizontal"
+        android:rowCount="8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+    </GridLayout>
+
+    <Button
+        android:id="@+id/buttonEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClickEnd"
+        android:text="End"
+        tools:layout_editor_absoluteX="222dp"
+        tools:layout_editor_absoluteY="0dp" />
+</android.support.constraint.ConstraintLayout>

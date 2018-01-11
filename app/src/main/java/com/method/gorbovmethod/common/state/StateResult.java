@@ -1,21 +1,41 @@
 package com.method.gorbovmethod.common.state;
 
-import com.method.gorbovmethod.bean.Result;
-import com.method.gorbovmethod.bean.User;
-
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class StateResult {
+public class StateResult implements Serializable {
 
 	private String userName;
 	private Timestamp date;
-	private Double resultTime;
+	private Long resultTime;
 	private Integer resultEval;
 
-	public StateResult(Result result, User user) {
-		this.userName = user.getName();
-		this.date = result.getTestDate();
-		this.resultTime = result.getResultTime();
-		this.resultEval = result.getResultEval();
+	public StateResult() {
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public Timestamp getDate() {
+		return date;
+	}
+
+	public Long getResultTime() {
+		return resultTime;
+	}
+
+	public Integer getResultEval() {
+		return resultEval;
+	}
+
+	@Override
+	public String toString() {
+		return "StateResult{" +
+				"userName='" + userName + '\'' +
+				", date=" + date +
+				", resultTime=" + resultTime +
+				", resultEval=" + resultEval +
+				'}';
 	}
 }
