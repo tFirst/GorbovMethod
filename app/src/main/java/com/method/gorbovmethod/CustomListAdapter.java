@@ -55,8 +55,9 @@ public class CustomListAdapter extends BaseAdapter {
 		holder.populationView.setText(
 				"Дата: " + stateResult.getDate().toString().split(" ")[0] +
 				"\nВремя: " + stateResult.getDate().toString().split(" ")[1] +
-				"\nЗатраченное время: " + stateResult.getResultTime() +
-				"\nОценка: " + stateResult.getResultEval());
+				"\nЗатраченное время: " + stateResult.getResultTime() + "с " +
+				"\nОценка переключения внимания: " + stateResult.getResultEvalAtt() + "%" +
+				"\nОценка ошибок переключения внимания: " + stateResult.getResultEvalAttMis() + "%");
 
 		return convertView;
 	}

@@ -8,7 +8,8 @@ public class StateResult implements Serializable {
 	private String userName;
 	private Timestamp date;
 	private Long resultTime;
-	private Integer resultEval;
+	private Integer resultEvalAtt;
+	private Integer resultEvalAttMis;
 
 	public StateResult() {
 	}
@@ -25,8 +26,12 @@ public class StateResult implements Serializable {
 		return resultTime;
 	}
 
-	public Integer getResultEval() {
-		return resultEval;
+	public Integer getResultEvalAtt() {
+		return resultEvalAtt;
+	}
+
+	public Integer getResultEvalAttMis() {
+		return resultEvalAttMis;
 	}
 
 	@Override
@@ -35,7 +40,8 @@ public class StateResult implements Serializable {
 				"userName='" + userName + '\'' +
 				", date=" + date +
 				", resultTime=" + resultTime +
-				", resultEval=" + resultEval +
+				", resultEvalAtt=" + resultEvalAtt +
+				", resultEvalAttMis=" + resultEvalAttMis +
 				'}';
 	}
 }

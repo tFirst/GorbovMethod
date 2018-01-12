@@ -19,12 +19,9 @@ import org.springframework.http.HttpStatus;
 import java.util.concurrent.ExecutionException;
 
 public class AuthActivity extends AppCompatActivity {
-
-	private String filename = "login.gorb";
 	private static String URL = "http://192.168.1.7:8080";
 
 	private User user;
-	private Boolean isOnline = true;
 
 	private Button auth;
 	private EditText login;
@@ -153,21 +150,18 @@ public class AuthActivity extends AppCompatActivity {
 	private void goToMainActivity() {
 		Intent intent = new Intent(this, MainActivity.class);
 		intent.putExtra("user", user);
-		intent.putExtra("isOnline", isOnline);
 		startActivity(intent);
 		finish();
 	}
 
 	public void onClickRegister(View view) {
-		StateMain stateMain = null;
-
 		String urlNew = URL +
 				"/auth" +
 				"/register" +
 				"?name=" + login.getText() +
 				"&password=" + password.getText();
 
-		stateMain = getDatas(urlNew);
+		StateMain stateMain = getDatas(urlNew);
 
 		if (stateMain.getErrorCode() != HttpStatus.GATEWAY_TIMEOUT.value()) {
 			if (stateMain.getErrorCode() != Codes.USER_ALREADY_EXIST) {
@@ -188,5 +182,28 @@ public class AuthActivity extends AppCompatActivity {
 	}
 
 	public void onClickGuest(View view) {
+		String urlNew = URL +
+				"/auth" +
+				"?name=" + "Гость" +
+				"&password=" + "guest";
+
+		StateMain stateMain = getDatas(urlNew);
+
+		if (stateMain.getErrorCode() != HttpStatus.GATEWAY_TIMEOUT.value()) {
+			if (stateMain.getErrorCode() != Codes.USER_ALREADY_EXIST) {
+				if (stateMain.getUser() != null) {
+					user = stateMain.getUser();
+					goToMainActivity();
+				}
+			} else {
+				Toast.makeText(this,
+						"Такой пользователь уже существует",
+						Toast.LENGTH_SHORT).show();
+			}
+		} else {
+			Toast.makeText(this,
+					"Нет соединения с сервером",
+					Toast.LENGTH_SHORT).show();
+		}
 	}
 }

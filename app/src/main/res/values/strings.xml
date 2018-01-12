@@ -15,4 +15,5 @@
     <string name="resultsTableName">Результаты</string>
     <string name="registerText">Зарегистрировать пользователя</string>
     <string name="guestText">Войти как гость</string>
+    <string name="buttonAuthorize">Авторизация</string>
 </resources>

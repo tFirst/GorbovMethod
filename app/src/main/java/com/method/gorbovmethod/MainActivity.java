@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.method.gorbovmethod.bean.User;
 import com.method.gorbovmethod.controller.PartOne;
@@ -16,14 +17,14 @@ import com.method.gorbovmethod.controller.PartOne;
 
 public class MainActivity extends AppCompatActivity {
 
-	private final String URL = "http://192.168.1.7:8080";
-
 	private ConstraintLayout constraintLayout;
 	private TextView textView;
 	private Button buttonStartTest;
 	private Button buttonInfo;
 	private TextView textViewWelcome;
 	private TextView textViewWelcomeText;
+	private Button buttonAuthorize;
+	private Button buttonResults;
 
 	private User user;
 
@@ -41,13 +42,22 @@ public class MainActivity extends AppCompatActivity {
 		textViewWelcome = findViewById(R.id.textViewWelcome);
 		textViewWelcome.setText(user.getName());
 		textViewWelcomeText = findViewById(R.id.textViewWelcomeText);
+		buttonAuthorize = findViewById(R.id.buttonAuthorize);
+		buttonResults = findViewById(R.id.buttonResults);
 	}
 
 	public void onClickButtonStartTest(View view) {
-		Intent intent = new Intent(this, PartOne.class);
-		intent.putExtra("user", user);
-		startActivity(intent);
-		finish();
+		if (user.getRoleId() > 1) {
+			Intent intent = new Intent(this, PartOne.class);
+			intent.putExtra("user", user);
+			startActivity(intent);
+			finish();
+		} else {
+			Toast.makeText(
+					this,
+					"Для прохождения теста вам необходимо авторизоваться",
+					Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	@RequiresApi(api = Build.VERSION_CODES.O)
@@ -56,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
 		buttonStartTest.setVisibility(View.INVISIBLE);
 		textViewWelcome.setVisibility(View.INVISIBLE);
 		textViewWelcomeText.setVisibility(View.INVISIBLE);
+		buttonResults.setVisibility(View.INVISIBLE);
+		buttonAuthorize.setVisibility(View.INVISIBLE);
 		textView.setText(R.string.testInfo);
 		constraintLayout.setVisibility(View.VISIBLE);
 	}
@@ -66,12 +78,32 @@ public class MainActivity extends AppCompatActivity {
 		buttonInfo.setVisibility(View.VISIBLE);
 		textViewWelcome.setVisibility(View.VISIBLE);
 		textViewWelcomeText.setVisibility(View.VISIBLE);
+		buttonResults.setVisibility(View.VISIBLE);
+		buttonAuthorize.setVisibility(View.VISIBLE);
 	}
 
 	public void onClickViewResults(View view) {
-		Intent intent = new Intent(this, ResultsActivity.class);
-		intent.putExtra("user", user);
+		if (user.getRoleId() > 1) {
+			Intent intent = new Intent(this, ResultsActivity.class);
+			intent.putExtra("user", user);
+			startActivity(intent);
+			finish();
+		} else {
+			Toast.makeText(
+					this,
+					"Для просмотра результатов вам необходимо авторизоваться",
+					Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	@Override
+	public void onBackPressed() {
+		Intent intent = new Intent(this, AuthActivity.class);
 		startActivity(intent);
 		finish();
+	}
+
+	public void onClickAuthorize(View view) {
+		onBackPressed();
 	}
 }

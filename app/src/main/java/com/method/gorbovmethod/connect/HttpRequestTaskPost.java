@@ -25,6 +25,7 @@ public class HttpRequestTaskPost extends AsyncTask<Void, Void, StateMain> {
 	@Override
 	protected StateMain doInBackground(Void... params) {
 		System.out.println(url);
+		System.out.println(result);
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());

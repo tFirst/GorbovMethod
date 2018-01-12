@@ -10,7 +10,7 @@
     <GridLayout
         android:id="@+id/gridLayout"
         android:layout_width="match_parent"
-        android:layout_height="462dp"
+        android:layout_height="464dp"
         android:layout_gravity="center"
         android:layout_margin="1dp"
         android:layout_marginTop="50dp"
@@ -28,11 +28,15 @@
     </GridLayout>
 
     <Button
-        android:id="@+id/buttonEnd"
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onClickEnd"
-        android:text="End"
-        tools:layout_editor_absoluteX="222dp"
+        android:text="Button"
+        android:layout_marginTop="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/gridLayout"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         tools:layout_editor_absoluteY="0dp" />
+
 </android.support.constraint.ConstraintLayout>

@@ -37,10 +37,18 @@ public class ResultsActivity extends AppCompatActivity {
 	private void Init() {
 		user = (User) getIntent().getSerializableExtra("user");
 
-		String url = URL +
-				"/result" +
-				"/getForUser" +
-				"?userId=" + user.getUserId();
+		String url;
+
+		if (user.getRoleId() == 2) {
+			url = URL +
+					"/result" +
+					"/getForUser" +
+					"?userId=" + user.getUserId();
+		} else {
+			url = URL +
+					"/result" +
+					"/getAll";
+		}
 
 		StateMain stateMain = getDatas(url);
 

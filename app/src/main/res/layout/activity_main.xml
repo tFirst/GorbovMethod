@@ -72,6 +72,18 @@
         tools:layout_editor_absoluteY="277dp"
         android:onClick="onClickViewResults"/>
 
+    <Button
+        android:id="@+id/buttonAuthorize"
+        android:layout_width="115dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:background="@android:color/holo_green_dark"
+        android:onClick="onClickAuthorize"
+        android:text="@string/buttonAuthorize"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonResults" />
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/infoLayout"
         android:layout_width="334dp"
